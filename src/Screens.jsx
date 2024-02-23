@@ -25,7 +25,7 @@ export function StartScreen({ start }) {
       </p>
       <button
         onClick={start}
-        className="bg-gradient-to-b from-pink-400 to-pink-500 text-white rounded-3xl drop-shadow-lg py-2 px-10 max-w-min justify-self-center"
+        className="bg-gradient-to-b from-pink-400 to-pink-500 text-white rounded-3xl drop-shadow-lg py-1 px-10 max-w-min justify-self-center"
       >
         Play
       </button>

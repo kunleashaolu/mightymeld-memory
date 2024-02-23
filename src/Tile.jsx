@@ -9,7 +9,7 @@ export function Tile({ content: Content, flip, state }) {
       );
     case "flipped":
       return (
-        <Front className="inline-block h-16 w-16 bg-indigo-500 rounded-md">
+        <Front className="inline-block h-16 w-16 bg-indigo-500 rounded-md p-2">
           <Content
             style={{
               display: "inline-block",
@@ -23,7 +23,7 @@ export function Tile({ content: Content, flip, state }) {
       );
     case "matched":
       return (
-        <Matched className="inline-block h-16 w-16 flex-1 opacity-5">
+        <Matched className="inline-block h-16 w-16 flex-1 opacity-5 p-2">
           <Content
             style={{
               display: "inline-block",
