@@ -18,24 +18,33 @@ export const possibleTileContents = [
 
 export function StartScreen({ start }) {
   return (
-    <div className="grid justify-center text-center bg-pink-50 rounded-xl mt-16 mx-8 p-16 gap-10">
-      <h1 className="font-bold text-pink-500 text-3xl">Memory</h1>
-      <p className="text-base font-semibold text-pink-500 text-nowrap">
-        Flip over tiles looking for pairs
-      </p>
-      <button
-        onClick={start}
-        className="bg-gradient-to-b from-pink-400 to-pink-500 text-white rounded-3xl drop-shadow-lg py-1 px-10 max-w-min justify-self-center"
-      >
-        Play
-      </button>
-    </div>
+    <>
+      <div className="flex flex-col h-screen bg-purple-500 justify-center">
+        <div className="grid justify-center text-center max-h-min gap-14">
+          <div className="grid gap-4">
+            <h1 className="font-bold text-slate-100 text-7xl max-h-min animate__animated animate__bounceInDown">
+              Memory
+            </h1>
+            <p className="text-lg font-semibold text-slate-100 text-nowrap animate__animated animate__fadeInRight animate__delay-1s">
+              Flip over tiles looking for pairs
+            </p>
+          </div>
+          <button
+            onClick={start}
+            className="bg-gradient-to-b from-pink-300 to-pink-400 text-white py-3 px-16 max-w-60 justify-self-center text-xl font-bold rounded-se-2xl rounded-es-2xl hover:shadow-xl shadow-pink-200 animate__animated animate__flash animate__infinite animate__slower animate__delay-2s"
+          >
+            Play
+          </button>
+        </div>
+      </div>
+    </>
   );
 }
 
 export function PlayScreen({ end }) {
   const [tiles, setTiles] = useState(null);
   const [tryCount, setTryCount] = useState(0);
+  const [matchesMade, setMatchesMade] = useState(0);
 
   const getTiles = (tileCount) => {
     // Throw error if count is not even.
@@ -83,9 +92,11 @@ export function PlayScreen({ end }) {
 
       if (alreadyFlippedTile.content === justFlippedTile.content) {
         confetti({
-          ticks: 100,
+          ticks: 600,
         });
         newState = "matched";
+
+        setMatchesMade((m) => m + 1);
       }
 
       // After a delay, either flip the tiles back or mark them as matched.
@@ -99,6 +110,7 @@ export function PlayScreen({ end }) {
           // If all tiles are matched, the game is over.
           if (newTiles.every((tile) => tile.state === "matched")) {
             setTimeout(end, 0);
+            setMatchesMade(0);
           }
 
           return newTiles;
@@ -114,16 +126,38 @@ export function PlayScreen({ end }) {
     });
   };
 
+  function reset() {
+    setTiles(null);
+    setTryCount(0);
+    setMatchesMade(0);
+  }
+
   return (
     <>
-      <div className="grid gap-10 mt-16">
-        <h1 className="flex gap-2 font-medium text-indigo-500 justify-center text-xl">
-          Tries{" "}
-          <p className="px-3 bg-indigo-200 font-bold text-lg text-indigo-500 rounded-md">
-            {tryCount}
-          </p>
-        </h1>
-        <div className="grid grid-cols-4 bg-slate-200 rounded-lg m-8 gap-3 p-4 justify-items-center">
+      <div className="h-screen bg-purple-100 animate__animated animate__fadeIn">
+        <div className="flex p-4 justify-between">
+          <button
+            onClick={reset}
+            className="bg-purple-400 rounded-md text-white font-semibold text-lg px-3 hover:bg-purple-500"
+          >
+            Reset
+          </button>
+          <div className="flex gap-3 animate__animated animate__zoomInDown">
+            <h1 className="flex gap-2 font-medium text-purple-500 justify-center text-xl border-2 rounded-md border-white pl-2">
+              Tries{" "}
+              <p className="px-3 font-bold text-xl text-purple-500 border-l-2 border-white">
+                {tryCount}
+              </p>
+            </h1>
+            <h1 className="flex gap-2 font-medium text-purple-500 justify-center text-xl border-2 rounded-md border-white pl-2">
+              Matches made{" "}
+              <p className="px-3 font-bold text-xl text-purple-500 border-l-2 border-white">
+                {matchesMade}
+              </p>
+            </h1>
+          </div>
+        </div>
+        <div className="grid grid-cols-4 bg-pink-100 rounded-lg m-auto gap-2 p-4 justify-items-center max-w-96 mt-16 animate__animated animate__zoomIn">
           {getTiles(16).map((tile, i) => (
             <Tile key={i} flip={() => flip(i)} {...tile} />
           ))}
