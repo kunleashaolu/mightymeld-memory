@@ -25,7 +25,7 @@ export function Tile({ content: Content, flip, state }) {
       );
     case "matched":
       return (
-        <Matched className="inline-block h-20 w-20 opacity-5 p-2 animate_animated animate__heartBeat">
+        <Matched className="inline-block h-20 w-20 opacity-5 p-2 animate__animated animate__heartBeat">
           <Content
             style={{
               display: "inline-block",
